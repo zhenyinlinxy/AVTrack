@@ -98,17 +98,17 @@ def sample_target_hisi(im: np.ndarray, target_bb: list, search_area_factor: floa
     actual_crop_sz = crop_sz
     if hisi_mode:
         actual_crop_sz = align_to_16(crop_sz)
+        
+        # Handle height limit - if crop exceeds 1080, cap at 1072 (multiple of 16 < 1080)
+        # This ensures the resize input stays under 1080 height limit
+        if actual_crop_sz > 1080:
+            print(f"[HiSi Info] Crop size {actual_crop_sz} exceeded 1080, capping at 1072")
+            actual_crop_sz = 1072
+        
         # Validate HiSi constraints for crop
         is_valid, warnings = validate_hisi_constraints(actual_crop_sz, actual_crop_sz, "crop")
         for warning in warnings:
             print(f"[HiSi Warning] {warning}")
-        
-        # Handle height limit - if crop exceeds 1080, we need to scale down
-        if actual_crop_sz > 1080:
-            # Scale factor to bring height under 1080
-            scale_down = 1072.0 / actual_crop_sz  # Use 1072 (multiple of 16) < 1080
-            actual_crop_sz = 1072
-            print(f"[HiSi Info] Crop size exceeded 1080, scaled down to {actual_crop_sz}")
     
     # Calculate crop boundaries centered on target
     cx = x + 0.5 * w

@@ -2,7 +2,7 @@
 Unit tests for AVTrack ONNX HiSi inference module.
 
 Tests the HiSi platform-specific functionality including:
-- 16-byte alignment
+- 16-pixel alignment
 - HiSi constraint validation
 - sample_target_hisi function
 - map_box_back function
