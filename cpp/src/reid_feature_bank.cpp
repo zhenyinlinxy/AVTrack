@@ -41,7 +41,13 @@ void ReIDFeatureBank::registerFeature(const std::vector<float>& feature) {
 }
 
 bool ReIDFeatureBank::isSimilar(const std::vector<float>& feature) const {
-    if (feature.empty() || features_.empty()) {
+    // If feature bank is empty, assume match (no reference to compare)
+    if (features_.empty()) {
+        return true;
+    }
+    
+    // If input feature is empty, cannot match
+    if (feature.empty()) {
         return false;
     }
     

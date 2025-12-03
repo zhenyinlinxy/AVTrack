@@ -231,6 +231,11 @@ void drawTrackingResult(cv::Mat& image,
 }
 
 cv::Mat hann2d(int height, int width) {
+    // Handle edge cases
+    if (height <= 1 || width <= 1) {
+        return cv::Mat::ones(height, width, CV_32F);
+    }
+    
     cv::Mat hann_y = cv::Mat::zeros(height, 1, CV_32F);
     cv::Mat hann_x = cv::Mat::zeros(1, width, CV_32F);
     
